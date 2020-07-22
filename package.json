@@ -1,0 +1,12 @@
+{
+  "name": "MeasureGuides",
+  "version": "1.0.0",
+  "description": "Creates neat measure guides on the selected objects",
+  "main": "code.js",
+  "scripts": {},
+  "author": "Diego F. Goberna",
+  "license": "MIT",
+  "dependencies": {
+    "@figma/plugin-typings": "^1.15.0"
+  }
+}

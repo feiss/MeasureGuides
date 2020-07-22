@@ -1,0 +1,123 @@
+<style type="text/css">
+body{
+  font: 13px sans-serif;
+  margin: 1rem;
+}
+p{
+  display: block;
+  margin: 0.2rem 0;
+}
+label{
+  display: inline-block;
+  color: #999;
+  width: 100px;
+}
+input{
+  border: none;
+  color: #222;
+  width: 3rem;
+  padding: 6px 10px;
+}
+input[type=checkbox]{
+  padding: 10px;
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+}
+button{
+  border: 1px solid #222;
+  border-radius: 7px;
+  padding: 6px 10px;
+  margin-right: 28px;
+  margin-top: 1rem;
+}
+button.main{
+  margin-top: 5px;
+  font-weight: bold;
+}
+button.center{
+  margin-left: 33px;
+}
+#buttons{
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+input[type=color]{
+  height: 24px;
+  padding: 0;
+  vertical-align: middle;
+}
+input[type=color]:disabled{
+  opacity: 0.2;
+}
+.w{
+  margin-right: 0;
+  width: 100%;
+}
+</style>
+<p>
+  <label for="fontsize">Font size</label>
+  <input id="fontsize" value="12">
+</p>
+<p>
+  <label for="margin">Margin</label>
+  <input id="margin" value="10">
+</p>
+<p>
+  <label for="textmargin">Text margin</label>
+  <input id="textmargin" value="2
+  ">
+</p>
+<p>
+  <label for="usecolor">Use object color</label>
+  <input type="checkbox" id="usecolor" checked onchange="useColor()">
+</p>
+<p id="colorp">
+  <label for="usecolor">Color</label>
+  <input type="color" id="color">
+</p>
+
+<div id="buttons">
+  <button id="createN" class="main center">N</button><br>
+  <button id="createW" class="main">W</button>
+  <button id="createE" class="main">E</button><br>
+  <button id="createS" class="main center">S</button>
+</div>
+<p><button id="cancel" class="w">Close</button></p>
+<script>
+
+
+$ = id => document.getElementById(id);
+
+function useColor(){
+  $('colorp').style.display = $('usecolor').checked ? 'none' : 'block';
+}
+
+useColor();
+
+function create(where){
+  const margin = parseInt($('margin').value, 10);
+  const textMargin = parseInt($('textmargin').value, 10);
+  const color = $('usecolor').checked ? null : $('color').value;
+  const fontSize = parseInt($('fontsize').value, 10);
+
+  parent.postMessage({pluginMessage: {
+    type: 'create-guides',
+    where,
+    margin,
+    textMargin,
+    color,
+    fontSize
+  } }, '*');
+}
+
+document.getElementById('createN').onclick = () => {create('N'); };
+document.getElementById('createS').onclick = () => {create('S'); };
+document.getElementById('createE').onclick = () => {create('E'); };
+document.getElementById('createW').onclick = () => {create('W'); };
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
+
+</script>
